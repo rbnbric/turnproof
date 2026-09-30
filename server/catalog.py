@@ -14,32 +14,27 @@ SCENARIOS = {
             {
                 "id": "bucket_light", "prompt": "Is the bucket-full light on?",
                 "instruction": "Look at the control panel without opening the appliance.",
-                "effects": {"yes": {"bucket": 4.0}, "no": {"bucket": 0.35}},
-                "priority": 100,
+                "p_yes": {"bucket": .90, "filter": .05, "temperature": .05, "drain": .05, "service": .08},
             },
             {
                 "id": "airflow", "prompt": "Can you feel steady airflow at the outlet grille?",
                 "instruction": "Keep hands clear of openings; check airflow from outside the grille.",
-                "effects": {"yes": {"filter": 0.55, "service": 0.55}, "no": {"filter": 2.2, "service": 2.6}},
-                "priority": 90,
+                "p_yes": {"bucket": .80, "filter": .20, "temperature": .70, "drain": .80, "service": .15},
             },
             {
                 "id": "filter_visible", "prompt": "Does the removable filter look covered with dust?",
                 "instruction": "Switch the unit off and unplug it before removing the user-serviceable filter.",
-                "effects": {"yes": {"filter": 4.0}, "no": {"filter": 0.3}},
-                "priority": 80,
+                "p_yes": {"bucket": .12, "filter": .88, "temperature": .12, "drain": .12, "service": .18},
             },
             {
                 "id": "room_cold", "prompt": "Is the room colder than 18 degrees Celsius or 65 Fahrenheit?",
                 "instruction": "Use the room thermostat or a separate thermometer.",
-                "effects": {"yes": {"temperature": 4.0}, "no": {"temperature": 0.3}},
-                "priority": 70,
+                "p_yes": {"bucket": .10, "filter": .10, "temperature": .85, "drain": .10, "service": .10},
             },
             {
                 "id": "hose_kink", "prompt": "If continuous drain is in use, is the hose kinked or rising uphill?",
                 "instruction": "Inspect only the exterior hose route. Do not open the appliance cabinet.",
-                "effects": {"yes": {"drain": 4.0}, "no": {"drain": 0.5}},
-                "priority": 60,
+                "p_yes": {"bucket": .05, "filter": .05, "temperature": .05, "drain": .82, "service": .08},
             },
         ],
         "resolutions": {
@@ -62,17 +57,17 @@ SCENARIOS = {
             {
                 "id": "single_item", "prompt": "Is the load one heavy item or gathered on one side?",
                 "instruction": "Pause the cycle before inspecting the drum.",
-                "effects": {"yes": {"load": 4.0}, "no": {"load": 0.35}}, "priority": 100,
+                "p_yes": {"load": .85, "level": .15, "transit": .15, "service": .12},
             },
             {
                 "id": "rocks", "prompt": "With the machine stopped, does the cabinet rock when pressed at opposite corners?",
                 "instruction": "Do not test while the drum is moving.",
-                "effects": {"yes": {"level": 4.0}, "no": {"level": 0.4}}, "priority": 90,
+                "p_yes": {"load": .10, "level": .82, "transit": .20, "service": .16},
             },
             {
                 "id": "new_install", "prompt": "Was the machine installed or moved recently?",
                 "instruction": "Answer from the installation history; do not remove any panels.",
-                "effects": {"yes": {"transit": 3.5}, "no": {"transit": 0.4}}, "priority": 80,
+                "p_yes": {"load": .18, "level": .18, "transit": .88, "service": .18},
             },
         ],
         "resolutions": {
@@ -87,4 +82,3 @@ SCENARIOS = {
 HAZARD_TERMS = {
     "smoke", "sparks", "burning", "gas smell", "electrical shock", "flames", "scorched"
 }
-

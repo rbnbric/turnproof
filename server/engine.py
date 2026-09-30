@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import math
 import sqlite3
 import uuid
 from pathlib import Path
@@ -89,8 +90,11 @@ class DiagnosisEngine:
         remaining = [c for c in SCENARIOS[incident["scenario"]]["checks"] if c["id"] not in answered]
         if not remaining:
             return None
-        check = sorted(remaining, key=lambda item: (-item["priority"], item["id"]))[0]
-        return {key: check[key] for key in ("id", "prompt", "instruction")}
+        posterior = {item["id"]: item["confidence"] for item in self._ranked(incident)}
+        scored = [(self._information_gain(posterior, check), check) for check in remaining]
+        gain, check = sorted(scored, key=lambda item: (-item[0], item[1]["id"]))[0]
+        return {**{key: check[key] for key in ("id", "prompt", "instruction")},
+                "information_gain_bits": round(gain, 4)}
 
     def propose_resolution(self, incident_id: str) -> dict:
         incident = self._incident(incident_id)
@@ -164,14 +168,38 @@ class DiagnosisEngine:
         for check_id, result in observations.items():
             if result == "unknown":
                 continue
-            for cause, factor in checks[check_id]["effects"].get(result, {}).items():
-                scores[cause] *= factor
+            for cause in scores:
+                likelihood = checks[check_id]["p_yes"][cause]
+                scores[cause] *= likelihood if result == "yes" else 1.0 - likelihood
         total = sum(scores.values()) or 1.0
         ranked = [
             {"id": cause, "label": scenario["causes"][cause]["label"], "confidence": round(score / total, 3)}
             for cause, score in scores.items()
         ]
         return sorted(ranked, key=lambda item: (-item["confidence"], item["id"]))
+
+    @staticmethod
+    def _entropy(distribution: dict[str, float]) -> float:
+        return -sum(value * math.log2(value) for value in distribution.values() if value > 0)
+
+    @classmethod
+    def _information_gain(cls, posterior: dict[str, float], check: dict) -> float:
+        probability_yes = sum(posterior[cause] * check["p_yes"][cause] for cause in posterior)
+        probability_no = 1.0 - probability_yes
+
+        def conditional(answer_yes: bool, probability: float) -> dict[str, float]:
+            if probability <= 0:
+                return {cause: 0.0 for cause in posterior}
+            return {
+                cause: posterior[cause] * (check["p_yes"][cause] if answer_yes else 1 - check["p_yes"][cause]) / probability
+                for cause in posterior
+            }
+
+        expected = (
+            probability_yes * cls._entropy(conditional(True, probability_yes))
+            + probability_no * cls._entropy(conditional(False, probability_no))
+        )
+        return cls._entropy(posterior) - expected
 
 
 def compact_json(value: object) -> str:

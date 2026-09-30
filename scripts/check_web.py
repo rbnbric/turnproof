@@ -6,8 +6,8 @@ root = Path(__file__).resolve().parents[1]
 html = (root / "web" / "index.html").read_text()
 javascript = (root / "web" / "app.js").read_text()
 
-required_html = ["id=\"transcript\"", "id=\"causes\"", "id=\"answers\"", "id=\"resolve\"", "id=\"verify\""]
-required_tools = ["open_incident", "record_observation", "propose_resolution", "verify_resolution", "incident_summary"]
+required_html = ["id=\"transcript\"", "id=\"causes\"", "id=\"answers\"", "id=\"resolve\"", "id=\"verify\"", "id=\"history\""]
+required_tools = ["open_incident", "record_observation", "propose_resolution", "verify_resolution", "incident_summary", "list_incidents"]
 
 missing = [item for item in required_html if item not in html]
 missing += [item for item in required_tools if item not in javascript]

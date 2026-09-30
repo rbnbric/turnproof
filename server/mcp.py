@@ -48,6 +48,10 @@ TOOLS = [
         "inputSchema": {"type": "object", "additionalProperties": False, "required": ["incident_id"],
                         "properties": {"incident_id": {"type": "string"}}},
     },
+    {
+        "name": "list_incidents", "description": "List retained incidents so a household can resume work across sessions.",
+        "inputSchema": {"type": "object", "additionalProperties": False, "properties": {}},
+    },
 ]
 
 
@@ -65,6 +69,8 @@ def call_tool(engine: DiagnosisEngine, name: str, arguments: dict) -> dict:
             value = engine.verify_resolution(arguments["incident_id"], arguments["worked"])
         elif name == "incident_summary":
             value = engine.summary(arguments["incident_id"])
+        elif name == "list_incidents":
+            value = engine.list_incidents()
         else:
             raise DiagnosisError(f"Unknown tool: {name}")
         return {"content": [{"type": "text", "text": __import__("json").dumps(value, sort_keys=True)}],

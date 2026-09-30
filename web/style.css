@@ -16,6 +16,7 @@ button { color:var(--ink); background:#16231f; border:1px solid #33463f; border-
 .panel-title button { border:0; background:none; color:var(--muted); font-size:11px; padding:0; }
 .transcript { height:370px; overflow:auto; padding:22px; }.turn{max-width:83%;margin-bottom:22px}.turn b{display:block;text-transform:uppercase;letter-spacing:.12em;font-size:10px;color:var(--green);margin-bottom:5px}.turn p{margin:0;font-size:17px}.turn.you{margin-left:auto}.turn.you b{color:var(--amber)}
 .choices { min-height:90px; display:flex; flex-wrap:wrap; gap:9px; align-content:center; padding:15px 22px; border-top:1px solid var(--line); }.hidden{display:none!important}
+.history{padding:13px 22px;border-top:1px solid var(--line)}.history small{color:var(--muted);letter-spacing:.12em}.history div{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}.history button{font-size:12px;padding:7px 10px}
 .evidence { padding-bottom:18px; }.evidence .panel-title code{font-size:10px;color:var(--green)}
 .status-row { display:flex;justify-content:space-between;padding:18px;border-bottom:1px solid var(--line);color:var(--muted)}.status-row strong{color:var(--ink);text-transform:capitalize}
 .causes { list-style:none;margin:0;padding:0 18px; }.causes li{display:flex;justify-content:space-between;gap:10px;padding:14px 0;border-bottom:1px solid var(--line)}.causes li span{display:flex;gap:10px}.causes em{font-style:normal;color:var(--muted);font:10px ui-monospace,monospace;padding-top:4px}.causes strong{color:var(--green)}.causes .empty{color:var(--muted)}
@@ -23,4 +24,3 @@ button { color:var(--ink); background:#16231f; border:1px solid #33463f; border-
 .primary { margin:0 18px;background:var(--green);color:#07110d;border:0;font-weight:700; }
 footer { display:flex;flex-wrap:wrap;justify-content:space-between;gap:15px;padding-top:22px; }
 @media(max-width:760px){main{width:min(100% - 22px,600px);padding-top:20px}.workspace{grid-template-columns:1fr}.state{display:none}.intro{font-size:19px}.panel{min-height:460px}}
-

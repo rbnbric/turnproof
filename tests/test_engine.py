@@ -33,6 +33,12 @@ class EngineTests(unittest.TestCase):
             self.engine.summary(second["incident_id"])["ranked_causes"],
         )
 
+    def test_next_check_has_positive_expected_information_gain(self):
+        opened = self.engine.open_incident("dehumidifier", "It runs but collects no water")
+        check = opened["next_check"]
+        self.assertEqual(check["id"], "bucket_light")
+        self.assertGreater(check["information_gain_bits"], 0)
+
     def test_hazard_stops_diagnosis(self):
         opened = self.engine.open_incident("dehumidifier", "There is smoke and a burning smell")
         self.assertEqual(opened["status"], "safety_stop")
@@ -62,4 +68,3 @@ class EngineTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 import secrets
 from pathlib import Path
+from urllib.parse import urlparse
 
 from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.responses import FileResponse, JSONResponse
@@ -28,8 +29,10 @@ sessions: set[str] = set()
 
 def _validate_origin(request: Request) -> None:
     origin = request.headers.get("origin")
-    if origin and origin not in ALLOWED_ORIGINS:
-        raise HTTPException(403, "Origin is not allowed")
+    if origin:
+        hostname = urlparse(origin).hostname
+        if hostname not in {"127.0.0.1", "localhost"} and origin not in ALLOWED_ORIGINS:
+            raise HTTPException(403, "Origin is not allowed")
 
 
 def _validate_accept(request: Request) -> None:
@@ -110,4 +113,3 @@ async def index() -> FileResponse:
 
 
 app.mount("/static", StaticFiles(directory=ROOT / "web"), name="static")
-

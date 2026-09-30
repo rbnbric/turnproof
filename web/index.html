@@ -30,6 +30,7 @@
           <button data-scenario="washer" data-symptom="My washing machine bangs loudly during the spin cycle.">Washing machine</button>
           <button data-scenario="dehumidifier" data-symptom="My dehumidifier smells like burning and is producing smoke.">Safety-stop demo</button>
         </div>
+        <div id="history" class="history hidden"><small>RESUME A RETAINED INCIDENT</small><div></div></div>
         <div id="answers" class="choices hidden">
           <button data-answer="yes">Yes</button><button data-answer="no">No</button><button data-answer="unknown">Not sure</button>
         </div>
@@ -42,7 +43,7 @@
         <div class="panel-title"><span>Evidence trail</span><code id="incident">NO INCIDENT</code></div>
         <div class="status-row"><span>Status</span><strong id="status">Waiting</strong></div>
         <ol id="causes" class="causes"><li class="empty">Rankings appear after an incident opens.</li></ol>
-        <div class="next-card"><small>NEXT SAFE CHECK</small><p id="next">No check selected.</p></div>
+        <div class="next-card"><small>NEXT SAFE CHECK <span id="gain"></span></small><p id="next">No check selected.</p></div>
         <button id="resolve" class="primary hidden">Propose bounded action</button>
       </aside>
     </section>

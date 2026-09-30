@@ -41,6 +41,7 @@ python scripts/verify.py
 - `propose_resolution`
 - `verify_resolution`
 - `incident_summary`
+- `list_incidents`
 
 The read-only `sounding://incidents` resource exposes the retained evidence trails.
 

@@ -6,6 +6,8 @@ const causes = document.querySelector('#causes');
 const incidentLabel = document.querySelector('#incident');
 const statusLabel = document.querySelector('#status');
 const nextLabel = document.querySelector('#next');
+const gainLabel = document.querySelector('#gain');
+const history = document.querySelector('#history');
 const resolveButton = document.querySelector('#resolve');
 let incident = null;
 
@@ -37,6 +39,7 @@ function render(data) {
     return li;
   }));
   nextLabel.textContent = data.next_check ? data.next_check.instruction : 'No further inspection selected.';
+  gainLabel.textContent = data.next_check ? `· ${data.next_check.information_gain_bits.toFixed(3)} BITS` : '';
   answers.classList.toggle('hidden', !data.next_check || data.status !== 'investigating');
   resolveButton.classList.toggle('hidden', Object.keys(data.observations).length === 0 || data.status !== 'investigating');
   verify.classList.toggle('hidden', data.status !== 'proposed');
@@ -80,4 +83,26 @@ verify.addEventListener('click', async event => {
     : 'The action did not resolve it. I marked the incident unresolved so the evidence can be escalated without repeating the same checks.');
 });
 
+async function refreshHistory() {
+  const incidents = await tool('list_incidents', {});
+  if (!incidents.length) return;
+  history.classList.remove('hidden');
+  const container = history.querySelector('div');
+  container.replaceChildren(...incidents.slice(0, 4).map(item => {
+    const button = document.createElement('button');
+    button.dataset.incident = item.incident_id;
+    button.textContent = `${item.scenario_label} · ${item.status.replace('_', ' ')}`;
+    return button;
+  }));
+}
+
+history.addEventListener('click', async event => {
+  const button = event.target.closest('button[data-incident]'); if (!button) return;
+  starter.classList.add('hidden'); history.classList.add('hidden');
+  const data = await tool('incident_summary', {incident_id: button.dataset.incident});
+  render(data); say('Alexa', `Resuming ${data.scenario_label.toLowerCase()}. I retained ${Object.keys(data.observations).length} observations.`);
+  if (data.next_check) say('Alexa', `${data.next_check.prompt} ${data.next_check.instruction}`);
+});
+
 document.querySelector('#reset').addEventListener('click', () => location.reload());
+refreshHistory();

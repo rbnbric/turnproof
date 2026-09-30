@@ -56,6 +56,12 @@ class McpTransportTests(unittest.TestCase):
             "params": {"protocolVersion": PROTOCOL_VERSION}})
         self.assertEqual(response.status_code, 403)
 
+    def test_local_origin_is_allowed_on_any_port(self):
+        response = self.client.post("/mcp", headers={**self.accept, "Origin": "http://127.0.0.1:8765"}, json={
+            "jsonrpc": "2.0", "id": 1, "method": "initialize",
+            "params": {"protocolVersion": PROTOCOL_VERSION}})
+        self.assertEqual(response.status_code, 200)
+
     def test_notification_and_session_delete(self):
         session = self.initialize()
         headers = {**self.accept, "MCP-Session-Id": session, "MCP-Protocol-Version": PROTOCOL_VERSION}
@@ -76,4 +82,3 @@ class McpTransportTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
