@@ -25,9 +25,9 @@ Alexa+ is the first target because its MCP add-ons expose exactly the boundary
 where generated language becomes structured intent and potentially becomes an
 effect. The design is portable to other MCP clients and voice-agent runtimes.
 
-## The empty category
+## The specific opening
 
-Current products generally do one of three things:
+Adjacent products and research generally do one of these things:
 
 - test whether a transcript sounds relevant or coherent, often by asking
   another model to grade it;
@@ -41,7 +41,23 @@ reached the same valid state? If the intended meaning changes, can it prove that
 only the affected facts and consequences changed?
 
 That gives Turnproof a role no public contest entry currently attempts: not one
-more reliable agent, but machinery for building and falsifying reliable agents.
+more reliable agent, but machinery for compiling, enforcing, and falsifying the
+meaning of multi-turn agent interactions from one contract.
+
+This is a combination claim, not a claim that its components have never existed.
+Rasa supports deterministic dialogue state and authored end-to-end conversation
+stories. Microsoft and commercial test products evaluate multi-turn agents.
+ServiceNow EVA applies audio perturbations to voice-agent evaluation. The
+official MCP conformance suite tests protocol behavior. AgentAssert, Edictum,
+and the AgentContract draft enforce behavioral or tool-use policies at runtime.
+Academic VUI-testing work has used state models to generate voice-interface
+tests.
+
+Turnproof's narrower opening is to use one domain-semantic contract to generate
+the reducer, runtime enforcement, model-based adversarial sequences, coverage
+metrics, cross-modal projections, and reproducible MCP-endpoint receipts. The
+competitive audit found strong precedents for every part except that complete
+loop.
 
 ## One contract, four products
 
@@ -473,3 +489,9 @@ the reference implementation and conformance receipt are complete.
 - [Alexa+ customer-experience testing guide](https://developer.amazon.com/docs/alexaplus/add-ons/mcp-addon-test-addon-cx.html)
 - [Alexa+ MCP design overview](https://developer.amazon.com/docs/alexaplus/add-ons/mcp-addon-design-guide-overview.html)
 - [Hackathon rules and judging guidance](https://amazonappdev2026.devpost.com/rules)
+- [Official MCP conformance framework](https://github.com/modelcontextprotocol/conformance)
+- [Rasa end-to-end conversation testing](https://legacy-docs-oss.rasa.com/docs/rasa/testing-your-assistant/)
+- [ServiceNow EVA voice-agent evaluation](https://github.com/ServiceNow/eva)
+- [AgentAssert behavioral contracts](https://github.com/qualixar/agentassert-abc)
+- [Edictum runtime tool governance](https://github.com/edictum-ai/edictum)
+- [AgentContract draft specification](https://github.com/agentcontract/spec/blob/main/SPEC.md)
