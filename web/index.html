@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sounding — Alexa+ household diagnosis</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="mark" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div><p class="eyebrow">ALEXA+ / SOUNDING</p><h1>Find what changed.</h1></div>
+      <div class="state"><i></i><span>Evidence engine ready</span></div>
+    </header>
+
+    <section class="intro">
+      <p>Turn a vague household problem into one safe check at a time. Sounding remembers the evidence, ranks likely causes, and verifies the result.</p>
+    </section>
+
+    <section class="workspace">
+      <div class="conversation panel">
+        <div class="panel-title"><span>Conversation</span><button id="reset">New incident</button></div>
+        <div id="transcript" class="transcript" aria-live="polite">
+          <div class="turn alexa"><b>Alexa</b><p>What are you trying to diagnose?</p></div>
+        </div>
+        <div id="starter" class="choices">
+          <button data-scenario="dehumidifier" data-symptom="My dehumidifier is running but it stopped collecting water.">Dehumidifier</button>
+          <button data-scenario="washer" data-symptom="My washing machine bangs loudly during the spin cycle.">Washing machine</button>
+          <button data-scenario="dehumidifier" data-symptom="My dehumidifier smells like burning and is producing smoke.">Safety-stop demo</button>
+        </div>
+        <div id="answers" class="choices hidden">
+          <button data-answer="yes">Yes</button><button data-answer="no">No</button><button data-answer="unknown">Not sure</button>
+        </div>
+      </div>
+
+      <aside class="evidence panel">
+        <div class="panel-title"><span>Evidence trail</span><code id="incident">NO INCIDENT</code></div>
+        <div class="status-row"><span>Status</span><strong id="status">Waiting</strong></div>
+        <ol id="causes" class="causes"><li class="empty">Rankings appear after an incident opens.</li></ol>
+        <div class="next-card"><small>NEXT SAFE CHECK</small><p id="next">No check selected.</p></div>
+        <button id="resolve" class="primary hidden">Propose bounded action</button>
+      </aside>
+    </section>
+
+    <footer><span>Persistent state</span><span>Deterministic ranking</span><span>Explicit safety stops</span><span>Verified outcomes</span></footer>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>
