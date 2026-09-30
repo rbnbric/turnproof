@@ -1,6 +1,7 @@
 const transcript = document.querySelector('#transcript');
 const starter = document.querySelector('#starter');
 const answers = document.querySelector('#answers');
+const verify = document.querySelector('#verify');
 const causes = document.querySelector('#causes');
 const incidentLabel = document.querySelector('#incident');
 const statusLabel = document.querySelector('#status');
@@ -38,6 +39,7 @@ function render(data) {
   nextLabel.textContent = data.next_check ? data.next_check.instruction : 'No further inspection selected.';
   answers.classList.toggle('hidden', !data.next_check || data.status !== 'investigating');
   resolveButton.classList.toggle('hidden', Object.keys(data.observations).length === 0 || data.status !== 'investigating');
+  verify.classList.toggle('hidden', data.status !== 'proposed');
 }
 
 starter.addEventListener('click', async event => {
@@ -67,5 +69,15 @@ resolveButton.addEventListener('click', async () => {
   incident = await tool('incident_summary', {incident_id: incident.incident_id}); render(incident);
 });
 
-document.querySelector('#reset').addEventListener('click', () => location.reload());
+verify.addEventListener('click', async event => {
+  const button = event.target.closest('button[data-worked]'); if (!button) return;
+  const worked = button.dataset.worked === 'true';
+  say('You', button.textContent);
+  const data = await tool('verify_resolution', {incident_id: incident.incident_id, worked});
+  render(data);
+  say('Alexa', worked
+    ? 'Verified. I closed the incident and retained the evidence trail.'
+    : 'The action did not resolve it. I marked the incident unresolved so the evidence can be escalated without repeating the same checks.');
+});
 
+document.querySelector('#reset').addEventListener('click', () => location.reload());
