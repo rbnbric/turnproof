@@ -1,44 +1,44 @@
 {
   "schema_version": 1,
   "project": "Turnproof",
-  "source_sha256": "7140e974915117d05a9f83d98be58ef8ffcee08fce893f6eb63c04f89ded784d",
+  "source_sha256": "c05946e53f657884111253acb963924688e11f1e0401d6e3a691b8bbac9116a8",
   "passed": 6,
   "total": 6,
   "gates": [
     {
       "gate": "syntax",
       "passed": true,
-      "duration_ms": 33.78,
+      "duration_ms": 37.19,
       "output": ""
     },
     {
       "gate": "turnproof_contracts",
       "passed": true,
-      "duration_ms": 754.87,
-      "output": "test_rejects_dependency_cycle (tests.test_turnproof.ContractTests.test_rejects_dependency_cycle) ... ok\ntest_rejects_unknown_dependency (tests.test_turnproof.ContractTests.test_rejects_unknown_dependency) ... ok\ntest_both_contracts_pass_generated_adversarial_checks (tests.test_turnproof.GeneratedLabTests.test_both_contracts_pass_generated_adversarial_checks) ... ok\ntest_action_binds_to_exact_state (tests.test_turnproof.SemanticEngineTests.test_action_binds_to_exact_state) ... ok\ntest_commit_retry_returns_identical_receipt (tests.test_turnproof.SemanticEngineTests.test_commit_retry_returns_identical_receipt) ... ok\ntest_failed_batch_is_atomic (tests.test_turnproof.SemanticEngineTests.test_failed_batch_is_atomic) ... ok\ntest_idempotency_key_cannot_commit_another_proposal (tests.test_turnproof.SemanticEngineTests.test_idempotency_key_cannot_commit_another_proposal) ... ok\ntest_idempotency_key_cannot_hide_different_mutation (tests.test_turnproof.SemanticEngineTests.test_idempotency_key_cannot_hide_different_mutation) ... ok\ntest_revision_history_and_resume (tests.test_turnproof.SemanticEngineTests.test_revision_history_and_resume) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.711s\n\nOK\n"
+      "duration_ms": 813.27,
+      "output": "test_rejects_dependency_cycle (tests.test_turnproof.ContractTests.test_rejects_dependency_cycle) ... ok\ntest_rejects_unknown_dependency (tests.test_turnproof.ContractTests.test_rejects_unknown_dependency) ... ok\ntest_both_contracts_pass_generated_adversarial_checks (tests.test_turnproof.GeneratedLabTests.test_both_contracts_pass_generated_adversarial_checks) ... ok\ntest_action_binds_to_exact_state (tests.test_turnproof.SemanticEngineTests.test_action_binds_to_exact_state) ... ok\ntest_commit_retry_returns_identical_receipt (tests.test_turnproof.SemanticEngineTests.test_commit_retry_returns_identical_receipt) ... ok\ntest_failed_batch_is_atomic (tests.test_turnproof.SemanticEngineTests.test_failed_batch_is_atomic) ... ok\ntest_idempotency_key_cannot_commit_another_proposal (tests.test_turnproof.SemanticEngineTests.test_idempotency_key_cannot_commit_another_proposal) ... ok\ntest_idempotency_key_cannot_hide_different_mutation (tests.test_turnproof.SemanticEngineTests.test_idempotency_key_cannot_hide_different_mutation) ... ok\ntest_revision_history_and_resume (tests.test_turnproof.SemanticEngineTests.test_revision_history_and_resume) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.773s\n\nOK\n"
     },
     {
       "gate": "generated_adversarial_lab",
       "passed": true,
-      "duration_ms": 411.34,
+      "duration_ms": 485.59,
       "output": "{\n  \"passed\": 16,\n  \"total\": 16,\n  \"contracts\": [\n    {\n      \"contract_id\": \"household_diagnosis_v1\",\n      \"passed\": 8,\n      \"total\": 8,\n      \"checks\": [\n        {\n          \"name\": \"partial_input\",\n          \"passed\": true\n        },\n        {\n          \"name\": \"unknown_is_not_no\",\n          \"passed\": true\n        },\n        {\n          \"name\": \"correction_supersedes\",\n          \"passed\": true\n        },\n        {\n          \"name\": \"mutation_retry_is_idempotent\",\n          \"passed\": true\n        },\n        {\n          \"name\": \"stale_action_rejected\",\n          \"passed\": true\n        },\n        {\n          \"name\": \"effect_retry_is_idempotent\",\n          \"passed\": true\n        },\n        {\n          \"name\": \"concurrent_stale_write_rejected\",\n          \"passed\": true\n        },\n        {\n          \"name\": \"independent_order_converges\",\n          \"passed\": true\n        }\n      ]\n    },\n    {\n      \"contract_id\": \"household_handoff_v1\",\n      \"passed\": 8,\n      \"total\": 8,\n      \"checks\": [\n        {\n          \"name\": \"partial_input\",\n          \"passed\": true\n        },\n        {\n          \"name\": \"unknown_is_not_no\",\n          \"passed\": true\n        },\n        {\n          \"name\": \"correction_supersedes\",\n          \"passed\": true\n        },\n        {\n          \"name\": \"mutation_retry_is_idempotent\",\n          \"passed\": true\n        },\n        {\n          \"name\": \"stale_action_rejected\",\n          \"passed\": true\n        },\n        {\n          \"name\": \"effect_retry_is_idempotent\",\n          \"passed\": true\n        },\n        {\n          \"name\": \"concurrent_stale_write_rejected\",\n          \"passed\": true\n        },\n        {\n          \"name\": \"independent_order_converges\",\n          \"passed\": true\n        }\n      ]\n    }\n  ]\n}\n"
     },
     {
       "gate": "evidence_engine",
       "passed": true,
-      "duration_ms": 186.33,
-      "output": "test_evidence_changes_ranking_and_persists (tests.test_engine.EngineTests.test_evidence_changes_ranking_and_persists) ... ok\ntest_hazard_stops_diagnosis (tests.test_engine.EngineTests.test_hazard_stops_diagnosis) ... ok\ntest_next_check_has_positive_expected_information_gain (tests.test_engine.EngineTests.test_next_check_has_positive_expected_information_gain) ... ok\ntest_rejects_unknown_inputs (tests.test_engine.EngineTests.test_rejects_unknown_inputs) ... ok\ntest_resolution_requires_evidence_and_verification (tests.test_engine.EngineTests.test_resolution_requires_evidence_and_verification) ... ok\ntest_same_evidence_has_same_ranking (tests.test_engine.EngineTests.test_same_evidence_has_same_ranking) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.144s\n\nOK\n"
+      "duration_ms": 232.9,
+      "output": "test_evidence_changes_ranking_and_persists (tests.test_engine.EngineTests.test_evidence_changes_ranking_and_persists) ... ok\ntest_hazard_stops_diagnosis (tests.test_engine.EngineTests.test_hazard_stops_diagnosis) ... ok\ntest_next_check_has_positive_expected_information_gain (tests.test_engine.EngineTests.test_next_check_has_positive_expected_information_gain) ... ok\ntest_rejects_unknown_inputs (tests.test_engine.EngineTests.test_rejects_unknown_inputs) ... ok\ntest_resolution_requires_evidence_and_verification (tests.test_engine.EngineTests.test_resolution_requires_evidence_and_verification) ... ok\ntest_same_evidence_has_same_ranking (tests.test_engine.EngineTests.test_same_evidence_has_same_ranking) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.198s\n\nOK\n"
     },
     {
       "gate": "mcp_transport",
       "passed": true,
-      "duration_ms": 1097.67,
-      "output": "/opt/python/lib/python3.14/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n  from starlette.testclient import TestClient as TestClient  # noqa\ntest_generated_lab_is_exposed (tests.test_mcp.McpTransportTests.test_generated_lab_is_exposed) ... ok\ntest_get_explicitly_declines_server_stream (tests.test_mcp.McpTransportTests.test_get_explicitly_declines_server_stream) ... ok\ntest_initialize_and_list_tools (tests.test_mcp.McpTransportTests.test_initialize_and_list_tools) ... ok\ntest_local_origin_is_allowed_on_any_port (tests.test_mcp.McpTransportTests.test_local_origin_is_allowed_on_any_port) ... ok\ntest_notification_and_session_delete (tests.test_mcp.McpTransportTests.test_notification_and_session_delete) ... ok\ntest_observatory_history_uses_semantic_ledger (tests.test_mcp.McpTransportTests.test_observatory_history_uses_semantic_ledger) ... ok\ntest_origin_is_validated (tests.test_mcp.McpTransportTests.test_origin_is_validated) ... ok\ntest_session_and_version_are_enforced (tests.test_mcp.McpTransportTests.test_session_and_version_are_enforced) ... ok\ntest_turnproof_revision_flow_over_real_mcp_dispatch (tests.test_mcp.McpTransportTests.test_turnproof_revision_flow_over_real_mcp_dispatch) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.841s\n\nOK\n"
+      "duration_ms": 1177.46,
+      "output": "/opt/python/lib/python3.14/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n  from starlette.testclient import TestClient as TestClient  # noqa\ntest_generated_lab_is_exposed (tests.test_mcp.McpTransportTests.test_generated_lab_is_exposed) ... ok\ntest_get_explicitly_declines_server_stream (tests.test_mcp.McpTransportTests.test_get_explicitly_declines_server_stream) ... ok\ntest_initialize_and_list_tools (tests.test_mcp.McpTransportTests.test_initialize_and_list_tools) ... ok\ntest_local_origin_is_allowed_on_any_port (tests.test_mcp.McpTransportTests.test_local_origin_is_allowed_on_any_port) ... ok\ntest_notification_and_session_delete (tests.test_mcp.McpTransportTests.test_notification_and_session_delete) ... ok\ntest_observatory_history_uses_semantic_ledger (tests.test_mcp.McpTransportTests.test_observatory_history_uses_semantic_ledger) ... ok\ntest_origin_is_validated (tests.test_mcp.McpTransportTests.test_origin_is_validated) ... ok\ntest_session_and_version_are_enforced (tests.test_mcp.McpTransportTests.test_session_and_version_are_enforced) ... ok\ntest_turnproof_revision_flow_over_real_mcp_dispatch (tests.test_mcp.McpTransportTests.test_turnproof_revision_flow_over_real_mcp_dispatch) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.925s\n\nOK\n"
     },
     {
       "gate": "browser_contract",
       "passed": true,
-      "duration_ms": 14.21,
+      "duration_ms": 14.1,
       "output": "web contract: 6 controls, 5 tool calls\n"
     }
   ]
