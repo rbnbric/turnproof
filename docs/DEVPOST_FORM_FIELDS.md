@@ -40,3 +40,7 @@ release judges can run.
 
 The complete paste-ready story, Built With tags, link status, and gallery
 captions are in `docs/DEVPOST_STORY.md`.
+
+### Try it out
+
+https://github.com/rbnbric/turnproof

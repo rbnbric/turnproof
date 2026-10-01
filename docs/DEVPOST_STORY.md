@@ -204,9 +204,11 @@ Use these Devpost tags:
 
 ## Try it out links
 
-No public repository or deployment is configured yet. Add the public GitHub
-repository here after publishing it. Add the hosted observatory as a second link
-if it is deployed before submission.
+**Source code and local demo:** https://github.com/rbnbric/turnproof
+
+The repository contains the observatory, MCP endpoint, verification commands,
+generated laboratory, and source-linked evidence receipt. Add a hosted
+observatory as a second link if it is deployed before submission.
 
 ## Suggested gallery captions
 
