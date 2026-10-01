@@ -1,0 +1,67 @@
+{
+  "engine": "stock_edge_neural",
+  "voice": "en-US-BrianMultilingualNeural",
+  "owner": "robin",
+  "quality": "fast",
+  "speed": 1.04,
+  "join_silence_seconds": 0.16,
+  "edge_silence_seconds": 0.08,
+  "duration_seconds": 92.6,
+  "output_sha256": "d9d9aad5c839d0ddc2f82b80ee87c723f723bdc8be05db41d3c34ca446a71891",
+  "segments": [
+    {
+      "index": 0,
+      "text": "Every Armada prize project tells the same story. New intelligence can help people build more, but it should never take away the ground beneath them. Imagination opens the door. Evidence keeps it standing.",
+      "characters": 204,
+      "sha256": "75024c4b756d6a1e198bd543729a8f47cf51e3bafd72848405c3b5ceec5339cc"
+    },
+    {
+      "index": 1,
+      "text": "Conversational software can sound certain even when its memory is wrong. Turnproof protects the moment when Alexa Plus turns an interpretation into a lasting fact or an action.",
+      "characters": 176,
+      "sha256": "bb5e7e0d4c1511ae9ecfac5b1ef316551ea33ff684207d09f62539de395072f1"
+    },
+    {
+      "index": 2,
+      "text": "We begin with partial information, and missing facts stay missing. The system invents nothing. The user answers no. Then the answer changes to yes.",
+      "characters": 147,
+      "sha256": "f6e4d56c865787e29a14ad462043bd781bc27a00cd652fc00c5f8a110631040d"
+    },
+    {
+      "index": 3,
+      "text": "The current meaning changes with it, while the old answer remains visible in the ledger. An action is proposed and tied to that exact state. Then new evidence arrives, and the conversation moves forward.",
+      "characters": 203,
+      "sha256": "0398b28278a1ae92ae12cfebccaa65cb9fad77aafbe515529e8c0541dcc091a9"
+    },
+    {
+      "index": 4,
+      "text": "The old approval no longer fits, so Turnproof stops it. No effect occurs.",
+      "characters": 73,
+      "sha256": "ea7cd99faedabca5583797a61b3bb5697ffac73fcb5bc0753985e1813eb19953"
+    },
+    {
+      "index": 5,
+      "text": "The contracts also test themselves against unknown inputs, corrections, retries, concurrent changes, stale actions, and different orderings of the same facts. Sixteen tests. Sixteen passes.",
+      "characters": 189,
+      "sha256": "065f701bec2e87567d7508294b1203439c86a09ba565c0edfb0151f3fa8882d0"
+    },
+    {
+      "index": 6,
+      "text": "Then the same engine moves from diagnosis to a different handoff contract. The reducer stays. The firewall stays. The evidence stays.",
+      "characters": 133,
+      "sha256": "cf73de70e2a8d79514d238e517aef2f6034d029aaa20a813bf0e3b559e68b7fc"
+    },
+    {
+      "index": 7,
+      "text": "This is the method behind Armada's work. Let language models expand imagination and help us design. Don't ask confidence to carry trust.",
+      "characters": 136,
+      "sha256": "b99b6fbb85f96936ecfbdbcd8114156844b3975846ba71b0873bc61f173e9eac"
+    },
+    {
+      "index": 8,
+      "text": "In an uncertain era, safe harbor comes from evidence we can inspect, reproduce, and test. Imagination above. Discipline underneath. That's the story.",
+      "characters": 149,
+      "sha256": "7768fbf1c90ea81dbe277fa123ce9d7476d053e613a135e636d039cab32ad6bb"
+    }
+  ]
+}

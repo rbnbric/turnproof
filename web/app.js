@@ -180,35 +180,35 @@ function cue(message) {
 
 async function runGuidedDemo(pauseMs, videoMode) {
   const pause = (duration = pauseMs) => new Promise(resolve => setTimeout(resolve, duration));
-  if (videoMode) { cue('One story: imagination above, evidence underneath'); await pause(15000); }
+  if (videoMode) { cue('One story: imagination above, evidence underneath'); await pause(23000); }
   current = await tool('start_turnproof_diagnosis', {
     scenario: 'dehumidifier', symptom: 'It runs, but the bucket stays dry.'
   });
   await render(current); addTrace('OPEN', 'Partial diagnosis accepted without invented defaults.');
-  if (videoMode) cue('Missing facts remain missing; Turnproof invents no defaults'); await pause(videoMode ? 7000 : pauseMs);
+  if (videoMode) cue('Missing facts remain missing; Turnproof invents no defaults'); await pause(videoMode ? 4000 : pauseMs);
   current = await tool('revise_turnproof_fact', {
     conversation_id: current.conversation_id, expected_revision: current.revision,
     idempotency_key: 'guided-no', field: 'bucket_light', operation: 'set', value: 'no'
   });
   await render(current); addTrace('ADD', 'bucket_light = no entered the active state.');
-  if (videoMode) cue('The first answer becomes revision 02'); await pause(videoMode ? 4500 : pauseMs);
+  if (videoMode) cue('The first answer becomes revision 02'); await pause(videoMode ? 2500 : pauseMs);
   current = await tool('revise_turnproof_fact', {
     conversation_id: current.conversation_id, expected_revision: current.revision,
     idempotency_key: 'guided-correction', field: 'bucket_light', operation: 'set', value: 'yes'
   });
   await render(current); addTrace('CORRECT', 'Correction superseded the active value without erasing history.', 'attention');
-  if (videoMode) cue('A correction replaces active meaning and preserves the ledger'); await pause(videoMode ? 7000 : pauseMs);
+  if (videoMode) cue('A correction replaces active meaning and preserves the ledger'); await pause(videoMode ? 5000 : pauseMs);
   proposal = await tool('propose_turnproof_action', {
     conversation_id: current.conversation_id, action: 'accept_resolution', parameters: {fixture: true}
   });
   addTrace('BIND', `Action bound to revision ${proposal.bound_revision}.`);
-  if (videoMode) cue('The proposed action is bound to this exact revision'); await pause(videoMode ? 6000 : pauseMs);
+  if (videoMode) cue('The proposed action is bound to this exact revision'); await pause(videoMode ? 4500 : pauseMs);
   current = await tool('revise_turnproof_fact', {
     conversation_id: current.conversation_id, expected_revision: current.revision,
     idempotency_key: 'guided-drift', field: 'airflow', operation: 'set', value: 'no'
   });
   await render(current); addTrace('DRIFT', 'New evidence invalidated the prior action.', 'attention');
-  if (videoMode) cue('New evidence advances the revision'); await pause(videoMode ? 5000 : pauseMs);
+  if (videoMode) cue('New evidence advances the revision'); await pause(videoMode ? 3500 : pauseMs);
   try {
     await tool('commit_turnproof_action', {proposal_id: proposal.proposal_id, idempotency_key: 'guided-stale'});
   } catch (error) {
@@ -218,11 +218,11 @@ async function runGuidedDemo(pauseMs, videoMode) {
   }
   proposal = null; updateControls();
   if (videoMode) cue('STATE_CHANGED: stale approval produces no effect');
-  await pause(videoMode ? 6000 : pauseMs);
+  await pause(videoMode ? 7500 : pauseMs);
   elements['run-lab'].click();
   if (videoMode) {
     cue('The same contracts generate their own adversarial checks');
-    await pause(10000);
+    await pause(13000);
     current = await tool('start_turnproof_handoff', {
       recipient: 'Sam', task: 'pick up the prescription', time_window: 'after work',
       precondition: 'only if the pharmacy confirms it is ready'

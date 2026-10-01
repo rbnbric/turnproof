@@ -50,7 +50,8 @@ Streamable HTTP.
 Append `?video=1` to run the paced, captioned submission walkthrough. The
 reproducible capture utility is `scripts/record_demo.py`; its optional packages
 are pinned in `requirements-video.txt`, and the narration is retained in
-`scripts/demo_narration.txt`.
+`scripts/demo_narration.txt`. Internal voice renders use the bounded,
+receipt-producing process in [`docs/NARRATION_PROTOCOL.md`](docs/NARRATION_PROTOCOL.md).
 
 ## Verify
 
@@ -60,7 +61,7 @@ python scripts/run_lab.py
 python scripts/verify.py
 ```
 
-The current suite contains 24 direct tests and 16 generated adversarial checks
+The current suite contains 26 direct tests and 16 generated adversarial checks
 across the two contracts. The six-gate verifier retains a JSON receipt in
 `evidence/latest.json`, tied to a SHA-256 digest of the tested source.
 
