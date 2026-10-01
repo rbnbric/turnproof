@@ -35,3 +35,8 @@ The older Sounding story describes the pre-pivot implementation. Do not paste it
 into the submission after the Turnproof rebuild begins. Rewrite the final story
 from the completed feature and evidence set so the public claims match the exact
 release judges can run.
+
+## Project details
+
+The complete paste-ready story, Built With tags, link status, and gallery
+captions are in `docs/DEVPOST_STORY.md`.
