@@ -3,52 +3,61 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sounding — Alexa+ household diagnosis</title>
-  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <title>Turnproof — conversation semantics under pressure</title>
+  <link rel="icon" href="/static/turnproof-icon.png" type="image/png">
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
   <main>
     <header>
-      <div class="mark" aria-hidden="true"><span></span><span></span><span></span></div>
-      <div><p class="eyebrow">ALEXA+ / SOUNDING</p><h1>Find what changed.</h1></div>
-      <div class="state"><i></i><span>Evidence engine ready</span></div>
+      <div class="identity">
+        <img class="logo-slot" src="/static/turnproof-icon.png" alt="Turnproof detective mark">
+        <div><p class="kicker">ALEXA+ / SEMANTIC CONFORMANCE</p><h1>Turnproof</h1></div>
+      </div>
+      <p class="thesis">Conversation is probabilistic.<br><strong>Meaning does not have to be.</strong></p>
     </header>
 
-    <section class="intro">
-      <p>Turn a vague household problem into one safe check at a time. Sounding remembers the evidence, ranks likely causes, and verifies the result.</p>
+    <section class="control-strip" aria-label="Demonstration controls">
+      <div><span>REFERENCE FLOW</span><button id="start-diagnosis">Start diagnosis</button><button id="answer-no" disabled>Answer “no”</button><button id="correct-yes" disabled>Correct to “yes”</button></div>
+      <div><span>COMMITMENT ATTACK</span><button id="propose" disabled>Bind action</button><button id="cause-drift" disabled>Change evidence</button><button id="commit-stale" disabled>Try stale action</button></div>
+      <div><span>GENERALITY</span><button id="start-handoff">Switch contract</button><button id="run-lab">Run all attacks</button><button id="reset">Clear view</button></div>
     </section>
 
-    <section class="workspace">
-      <div class="conversation panel">
-        <div class="panel-title"><span>Conversation</span><button id="reset">New incident</button></div>
-        <div id="transcript" class="transcript" aria-live="polite">
-          <div class="turn alexa"><b>Alexa</b><p>What are you trying to diagnose?</p></div>
-        </div>
-        <div id="starter" class="choices">
-          <button data-scenario="dehumidifier" data-symptom="My dehumidifier is running but it stopped collecting water.">Dehumidifier</button>
-          <button data-scenario="washer" data-symptom="My washing machine bangs loudly during the spin cycle.">Washing machine</button>
-          <button data-scenario="dehumidifier" data-symptom="My dehumidifier smells like burning and is producing smoke.">Safety-stop demo</button>
-        </div>
-        <div id="history" class="history hidden"><small>RESUME A RETAINED INCIDENT</small><div></div></div>
-        <div id="answers" class="choices hidden">
-          <button data-answer="yes">Yes</button><button data-answer="no">No</button><button data-answer="unknown">Not sure</button>
-        </div>
-        <div id="verify" class="choices hidden">
-          <button data-worked="true">That fixed it</button><button data-worked="false">Problem remains</button>
-        </div>
-      </div>
-
-      <aside class="evidence panel">
-        <div class="panel-title"><span>Evidence trail</span><code id="incident">NO INCIDENT</code></div>
-        <div class="status-row"><span>Status</span><strong id="status">Waiting</strong></div>
-        <ol id="causes" class="causes"><li class="empty">Rankings appear after an incident opens.</li></ol>
-        <div class="next-card"><small>NEXT SAFE CHECK <span id="gain"></span></small><p id="next">No check selected.</p></div>
-        <button id="resolve" class="primary hidden">Propose bounded action</button>
-      </aside>
+    <section class="status-band">
+      <div><span>CONTRACT</span><strong id="contract">NO ACTIVE CONTRACT</strong></div>
+      <div><span>REVISION</span><strong id="revision">—</strong></div>
+      <div class="digest"><span>SEMANTIC DIGEST</span><code id="digest">—</code></div>
+      <div><span>VERDICT</span><strong id="verdict">WAITING</strong></div>
     </section>
 
-    <footer><span>Persistent state</span><span>Deterministic ranking</span><span>Explicit safety stops</span><span>Verified outcomes</span></footer>
+    <section class="observatory">
+      <article class="pane current">
+        <div class="pane-heading"><span>01</span><h2>Current meaning</h2></div>
+        <dl id="facts"><div class="empty">Start a reference flow to materialize semantic state.</div></dl>
+        <div class="unknown-block"><span>STILL NEEDED</span><p id="needed">—</p></div>
+      </article>
+
+      <article class="pane changes">
+        <div class="pane-heading"><span>02</span><h2>Revision ledger</h2></div>
+        <ol id="history"><li class="empty">Corrections remain inspectable without remaining active.</li></ol>
+      </article>
+
+      <article class="pane lab">
+        <div class="pane-heading"><span>03</span><h2>Adversarial lab</h2></div>
+        <div class="meter"><b id="score">0 / 0</b><span>GENERATED CHECKS PASSING</span></div>
+        <div id="checks" class="checks"><p class="empty">The lab attacks the same contracts used by the live flow.</p></div>
+      </article>
+    </section>
+
+    <section class="trace">
+      <div class="pane-heading"><span>04</span><h2>Live trace</h2><small>REAL MCP-BACKED STATE TRANSITIONS</small></div>
+      <ol id="trace"><li><time>READY</time><p>Choose a flow, then break its assumptions.</p></li></ol>
+    </section>
+
+    <footer>
+      <span>CONTRACT → REDUCER → FIREWALL → RECEIPT</span>
+      <span>MCP 2025-11-25 / STREAMABLE HTTP</span>
+    </footer>
   </main>
   <script src="/static/app.js"></script>
 </body>

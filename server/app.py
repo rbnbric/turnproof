@@ -12,7 +12,10 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from .engine import DiagnosisEngine, DiagnosisError
+from .contracts import CONTRACTS
+from .lab import run_contract_lab
 from .mcp import PROTOCOL_VERSION, call_tool, dispatch
+from .semantic import SemanticEngine
 
 ROOT = Path(__file__).resolve().parents[1]
 DATABASE = os.environ.get("SOUNDING_DATABASE", str(ROOT / "sounding.db"))
@@ -23,7 +26,8 @@ ALLOWED_ORIGINS = {
 }
 
 engine = DiagnosisEngine(DATABASE)
-app = FastAPI(title="Sounding", version="0.1.0")
+semantic = SemanticEngine(DATABASE)
+app = FastAPI(title="Turnproof", version="0.2.0")
 sessions: set[str] = set()
 
 
@@ -65,7 +69,7 @@ async def mcp_post(
     is_initialize = message.get("method") == "initialize"
     if not is_initialize:
         _validate_session(mcp_session_id, mcp_protocol_version)
-    reply = dispatch(engine, message)
+    reply = dispatch(engine, semantic, message)
     if reply is None:
         return Response(status_code=202)
     headers = {}
@@ -102,9 +106,28 @@ async def mcp_delete(
 @app.post("/api/tools/{name}")
 async def demo_tool(name: str, request: Request) -> JSONResponse:
     _validate_origin(request)
-    result = call_tool(engine, name, await request.json())
+    result = call_tool(engine, semantic, name, await request.json())
     status = 400 if result.get("isError") else 200
     return JSONResponse(result, status_code=status)
+
+
+@app.get("/api/turnproof/lab")
+async def contract_lab() -> JSONResponse:
+    reports = [run_contract_lab(contract) for contract in CONTRACTS.values()]
+    return JSONResponse({
+        "passed": sum(report["passed"] for report in reports),
+        "total": sum(report["total"] for report in reports),
+        "contracts": reports,
+    })
+
+
+@app.get("/api/turnproof/conversations/{conversation_id}/history")
+async def conversation_history(conversation_id: str) -> JSONResponse:
+    try:
+        return JSONResponse({"events": semantic.history(conversation_id)})
+    except Exception as exc:
+        code = getattr(exc, "code", "INVALID_REQUEST")
+        return JSONResponse({"code": code, "message": str(exc)}, status_code=404)
 
 
 @app.get("/")

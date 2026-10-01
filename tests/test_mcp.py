@@ -6,6 +6,7 @@ from fastapi.testclient import TestClient
 
 from server.engine import DiagnosisEngine
 from server.mcp import PROTOCOL_VERSION
+from server.semantic import SemanticEngine
 import server.app as application
 
 
@@ -13,6 +14,7 @@ class McpTransportTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         application.engine = DiagnosisEngine(Path(self.temp.name) / "mcp.db")
+        application.semantic = SemanticEngine(Path(self.temp.name) / "mcp.db")
         application.sessions.clear()
         self.client = TestClient(application.app)
         self.accept = {"Accept": "application/json, text/event-stream"}
@@ -39,6 +41,50 @@ class McpTransportTests(unittest.TestCase):
         names = [tool["name"] for tool in response.json()["result"]["tools"]]
         self.assertIn("open_incident", names)
         self.assertIn("verify_resolution", names)
+        self.assertIn("start_turnproof_diagnosis", names)
+        self.assertIn("commit_turnproof_action", names)
+
+    def test_turnproof_revision_flow_over_real_mcp_dispatch(self):
+        session = self.initialize()
+        headers = {**self.accept, "MCP-Session-Id": session, "MCP-Protocol-Version": PROTOCOL_VERSION}
+
+        def call(request_id, name, arguments):
+            response = self.client.post("/mcp", headers=headers, json={
+                "jsonrpc": "2.0", "id": request_id, "method": "tools/call",
+                "params": {"name": name, "arguments": arguments},
+            })
+            self.assertEqual(response.status_code, 200)
+            return response.json()["result"]
+
+        opened = call(2, "start_turnproof_diagnosis", {
+            "scenario": "dehumidifier", "symptom": "bucket stays dry",
+        })["structuredContent"]
+        first = call(3, "revise_turnproof_fact", {
+            "conversation_id": opened["conversation_id"], "expected_revision": opened["revision"],
+            "idempotency_key": "answer-1", "field": "bucket_light", "operation": "set", "value": "no",
+        })["structuredContent"]
+        corrected = call(4, "revise_turnproof_fact", {
+            "conversation_id": opened["conversation_id"], "expected_revision": first["revision"],
+            "idempotency_key": "answer-2", "field": "bucket_light", "operation": "set", "value": "yes",
+        })["structuredContent"]
+        self.assertEqual(corrected["changed"][0]["operation"], "replace")
+        self.assertEqual(corrected["understood"]["bucket_light"], "yes")
+
+    def test_generated_lab_is_exposed(self):
+        response = self.client.get("/api/turnproof/lab")
+        self.assertEqual(response.status_code, 200)
+        report = response.json()
+        self.assertEqual(report["passed"], report["total"])
+        self.assertEqual(len(report["contracts"]), 2)
+
+    def test_observatory_history_uses_semantic_ledger(self):
+        opened = application.semantic.open_conversation("household_handoff_v1", {
+            "recipient": "Sam", "task": "pick up prescription", "time_window": "after work",
+        })
+        response = self.client.get(f"/api/turnproof/conversations/{opened['conversation_id']}/history")
+        self.assertEqual(response.status_code, 200)
+        events = response.json()["events"]
+        self.assertEqual({event["field"] for event in events}, {"recipient", "task", "time_window"})
 
     def test_session_and_version_are_enforced(self):
         response = self.client.post("/mcp", headers=self.accept, json={

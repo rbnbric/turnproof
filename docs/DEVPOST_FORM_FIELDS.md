@@ -16,11 +16,9 @@ Character count: 188 / 200.
 
 ### Thumbnail direction
 
-A single conversational thread enters from the left, passes through a compact
-proof gate, and exits on the right as two synchronized outputs: a voice waveform
-and a structured state graph. Use a dark field, warm white structure, and one
-electric cyan signal color. Avoid chat bubbles, robot heads, shields, checkmark
-badges, and generic AI gradients.
+Use `evidence/turnproof-thumbnail.png`, supplied by Robin. It is already a 3:2
+PNG at 1536 × 1024 and below Devpost's 5 MB limit. The same mark appears in the
+observatory header as `web/turnproof-icon.png`.
 
 ## Submission identity
 

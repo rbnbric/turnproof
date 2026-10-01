@@ -6,7 +6,9 @@ import json
 import math
 import sqlite3
 import uuid
+from contextlib import contextmanager
 from pathlib import Path
+from typing import Iterator
 
 from .catalog import HAZARD_TERMS, SCENARIOS
 
@@ -20,10 +22,18 @@ class DiagnosisEngine:
         self.database = str(database)
         self._initialize()
 
-    def _connect(self) -> sqlite3.Connection:
+    @contextmanager
+    def _connect(self) -> Iterator[sqlite3.Connection]:
         connection = sqlite3.connect(self.database)
         connection.row_factory = sqlite3.Row
-        return connection
+        try:
+            yield connection
+            connection.commit()
+        except Exception:
+            connection.rollback()
+            raise
+        finally:
+            connection.close()
 
     def _initialize(self) -> None:
         with self._connect() as db:

@@ -11,7 +11,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 GATES = [
-    ("syntax", [sys.executable, "-m", "py_compile", "server/app.py", "server/catalog.py", "server/engine.py", "server/mcp.py"]),
+    ("syntax", [sys.executable, "-m", "py_compile", "server/app.py", "server/catalog.py", "server/contracts.py", "server/engine.py", "server/lab.py", "server/mcp.py", "server/semantic.py"]),
+    ("turnproof_contracts", [sys.executable, "-m", "unittest", "-v", "tests.test_turnproof"]),
+    ("generated_adversarial_lab", [sys.executable, "scripts/run_lab.py"]),
     ("evidence_engine", [sys.executable, "-m", "unittest", "-v", "tests.test_engine"]),
     ("mcp_transport", [sys.executable, "-m", "unittest", "-v", "tests.test_mcp"]),
     ("browser_contract", [sys.executable, "scripts/check_web.py"]),
@@ -39,7 +41,7 @@ def main() -> int:
         })
     report = {
         "schema_version": 1,
-        "project": "Sounding",
+        "project": "Turnproof",
         "source_sha256": digest_sources(),
         "passed": sum(result["passed"] for result in results),
         "total": len(results),
@@ -48,11 +50,10 @@ def main() -> int:
     target = ROOT / "evidence" / "latest.json"
     target.parent.mkdir(exist_ok=True)
     target.write_text(json.dumps(report, indent=2) + "\n")
-    print(f"Sounding conformance: {report['passed']}/{report['total']} gates passed")
+    print(f"Turnproof conformance: {report['passed']}/{report['total']} gates passed")
     print(target)
     return 0 if report["passed"] == report["total"] else 1
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

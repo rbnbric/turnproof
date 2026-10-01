@@ -1,10 +1,19 @@
-# Sounding
+# Turnproof
 
-**Alexa+, help me find what actually changed.**
+**Conversation is probabilistic. Meaning does not have to be.**
 
-Sounding is a voice-first household diagnostician built for the Alexa+ track of the 2026 Build, Ship, Shape Amazon Developer Hackathon. It preserves observations across sessions, selects one safe inspection at a time, ranks known causes deterministically, and verifies whether the proposed action worked.
+Turnproof is a semantic firewall and adversarial laboratory for Alexa+ add-ons.
+It compiles a conversational contract into revisioned state rules, protects
+effects from stale or ambiguous state, and generates multi-turn attacks against
+the same contract.
 
-The LLM interprets conversation. The evidence engine owns safety, state transitions, rankings, and action gates.
+The proof of concept includes two structurally different contracts:
+
+- a household diagnosis that retains evidence and accepts corrections;
+- a household handoff with a recipient, task, time window, and precondition.
+
+Both use the same reducer, revision ledger, semantic digest, proposal boundary,
+idempotent receipts, and generated laboratory.
 
 ## Run
 
@@ -17,37 +26,70 @@ pip install -r requirements.txt
 uvicorn server.app:app --host 127.0.0.1 --port 8000
 ```
 
-Open <http://127.0.0.1:8000>. The MCP endpoint is `http://127.0.0.1:8000/mcp` and implements protocol version `2025-11-25` over Streamable HTTP.
+Open <http://127.0.0.1:8000>. The MCP endpoint is
+`http://127.0.0.1:8000/mcp` and implements protocol version `2025-11-25` over
+Streamable HTTP.
+
+## Observatory walkthrough
+
+1. Start the diagnosis.
+2. Record “no,” then correct it to “yes.” The active meaning changes while both
+   revisions remain visible.
+3. Bind an action to the current revision and digest.
+4. Change another piece of evidence.
+5. Try the stale action. The runtime returns `STATE_CHANGED` without producing
+   the simulated effect.
+6. Switch to the handoff contract to demonstrate reuse.
+7. Run all attacks. The browser displays the generated results from the live
+   `/api/turnproof/lab` endpoint.
 
 ## Verify
 
 ```bash
 python -m unittest discover -v
-```
-
-The tests exercise persistent evidence, deterministic ranking, safety stops, resolution verification, MCP initialization, session lifecycle, required headers, and origin validation.
-
-To run the submission gauntlet and write a source-linked JSON receipt:
-
-```bash
+python scripts/run_lab.py
 python scripts/verify.py
 ```
 
+The current suite contains 24 direct tests and 16 generated adversarial checks
+across the two contracts. The six-gate verifier retains a JSON receipt in
+`evidence/latest.json`, tied to a SHA-256 digest of the tested source.
+
+Generated checks currently cover:
+
+- partial input and minimum clarification;
+- explicit unknown values;
+- correction supersession;
+- mutation and effect retry idempotency;
+- stale action rejection;
+- concurrent stale-write rejection;
+- semantic convergence when independent facts arrive in different orders.
+
 ## MCP tools
 
-- `open_incident`
-- `get_next_check`
-- `record_observation`
-- `propose_resolution`
-- `verify_resolution`
-- `incident_summary`
-- `list_incidents`
+Turnproof tools:
 
-The read-only `sounding://incidents` resource exposes the retained evidence trails.
+- `start_turnproof_diagnosis`
+- `start_turnproof_handoff`
+- `revise_turnproof_fact`
+- `review_turnproof_conversation`
+- `propose_turnproof_action`
+- `commit_turnproof_action`
 
-## Safety boundary
+The original diagnostic tools remain during migration so the existing Bayesian
+reference engine and its safety tests continue to run.
 
-Sounding only supplies exterior or manufacturer-designated user checks. Hazard terms force a safety stop. The proof of concept does not provide internal electrical, gas, refrigeration, or disassembly instructions.
+## Trust boundary
+
+Alexa+ owns speech recognition, conversational routing, tool selection, and its
+verbal response. Turnproof begins where that probabilistic interpretation
+becomes a proposed structured change.
+
+The model may propose a tool call. Deterministic code owns validation, current
+meaning, correction history, optimistic concurrency, proposal invalidation,
+idempotency, and the test verdict. The browser is a clearly labelled custom
+simulation; this repository does not claim a completed production Alexa+ device
+session.
 
 ## License
 
