@@ -3,6 +3,8 @@ const elements = Object.fromEntries([
   'start-diagnosis', 'answer-no', 'correct-yes', 'propose', 'cause-drift', 'commit-stale',
   'start-handoff', 'run-lab', 'reset'
 ].map(id => [id, document.getElementById(id)]));
+elements['demo-cue'] = document.getElementById('demo-cue');
+elements['demo-cue-text'] = document.getElementById('demo-cue-text');
 
 let current = null;
 let proposal = null;
@@ -159,39 +161,54 @@ elements['run-lab'].addEventListener('click', async () => {
 
 elements.reset.addEventListener('click', () => location.reload());
 
-if (new URLSearchParams(location.search).has('lab')) {
+const query = new URLSearchParams(location.search);
+
+if (query.has('lab')) {
   elements['run-lab'].click();
 }
 
-if (new URLSearchParams(location.search).has('demo')) {
-  runGuidedDemo();
+if (query.has('video')) {
+  runGuidedDemo(5200, true);
+} else if (query.has('demo')) {
+  runGuidedDemo(120, false);
 }
 
-async function runGuidedDemo() {
-  const pause = () => new Promise(resolve => setTimeout(resolve, 120));
+function cue(message) {
+  elements['demo-cue'].hidden = false;
+  elements['demo-cue-text'].textContent = message;
+}
+
+async function runGuidedDemo(pauseMs, videoMode) {
+  const pause = (duration = pauseMs) => new Promise(resolve => setTimeout(resolve, duration));
+  if (videoMode) { cue('A contract begins with partial information'); await pause(3600); }
   current = await tool('start_turnproof_diagnosis', {
     scenario: 'dehumidifier', symptom: 'It runs, but the bucket stays dry.'
   });
-  await render(current); addTrace('OPEN', 'Partial diagnosis accepted without invented defaults.'); await pause();
+  await render(current); addTrace('OPEN', 'Partial diagnosis accepted without invented defaults.');
+  if (videoMode) cue('Missing facts remain missing; Turnproof invents no defaults'); await pause();
   current = await tool('revise_turnproof_fact', {
     conversation_id: current.conversation_id, expected_revision: current.revision,
     idempotency_key: 'guided-no', field: 'bucket_light', operation: 'set', value: 'no'
   });
-  await render(current); addTrace('ADD', 'bucket_light = no entered the active state.'); await pause();
+  await render(current); addTrace('ADD', 'bucket_light = no entered the active state.');
+  if (videoMode) cue('The first answer becomes revision 02'); await pause();
   current = await tool('revise_turnproof_fact', {
     conversation_id: current.conversation_id, expected_revision: current.revision,
     idempotency_key: 'guided-correction', field: 'bucket_light', operation: 'set', value: 'yes'
   });
-  await render(current); addTrace('CORRECT', 'Correction superseded the active value without erasing history.', 'attention'); await pause();
+  await render(current); addTrace('CORRECT', 'Correction superseded the active value without erasing history.', 'attention');
+  if (videoMode) cue('A correction replaces active meaning and preserves the ledger'); await pause();
   proposal = await tool('propose_turnproof_action', {
     conversation_id: current.conversation_id, action: 'accept_resolution', parameters: {fixture: true}
   });
-  addTrace('BIND', `Action bound to revision ${proposal.bound_revision}.`); await pause();
+  addTrace('BIND', `Action bound to revision ${proposal.bound_revision}.`);
+  if (videoMode) cue('The proposed action is bound to this exact revision'); await pause();
   current = await tool('revise_turnproof_fact', {
     conversation_id: current.conversation_id, expected_revision: current.revision,
     idempotency_key: 'guided-drift', field: 'airflow', operation: 'set', value: 'no'
   });
-  await render(current); addTrace('DRIFT', 'New evidence invalidated the prior action.', 'attention'); await pause();
+  await render(current); addTrace('DRIFT', 'New evidence invalidated the prior action.', 'attention');
+  if (videoMode) cue('New evidence advances the revision'); await pause();
   try {
     await tool('commit_turnproof_action', {proposal_id: proposal.proposal_id, idempotency_key: 'guided-stale'});
   } catch (error) {
@@ -199,5 +216,21 @@ async function runGuidedDemo() {
     elements.verdict.dataset.state = 'blocked';
     addTrace('BLOCK', `${error.code}: stale action produced no effect.`, 'blocked');
   }
-  proposal = null; updateControls(); elements['run-lab'].click();
+  proposal = null; updateControls();
+  if (videoMode) cue('STATE_CHANGED: stale approval produces no effect');
+  await pause(videoMode ? 6200 : pauseMs);
+  elements['run-lab'].click();
+  if (videoMode) {
+    cue('The same contracts generate their own adversarial checks');
+    await pause(7600);
+    current = await tool('start_turnproof_handoff', {
+      recipient: 'Sam', task: 'pick up the prescription', time_window: 'after work',
+      precondition: 'only if the pharmacy confirms it is ready'
+    });
+    await render(current);
+    addTrace('CONTRACT', 'The same reducer now enforces a structurally different delegation workflow.');
+    cue('One engine, a second structurally different contract');
+    await pause(7000);
+    cue('24 tests · 16 generated attacks · 6 conformance gates');
+  }
 }

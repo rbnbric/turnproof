@@ -43,6 +43,11 @@ Streamable HTTP.
 7. Run all attacks. The browser displays the generated results from the live
    `/api/turnproof/lab` endpoint.
 
+Append `?video=1` to run the paced, captioned submission walkthrough. The
+reproducible capture utility is `scripts/record_demo.py`; its optional packages
+are pinned in `requirements-video.txt`, and the narration is retained in
+`scripts/demo_narration.txt`.
+
 ## Verify
 
 ```bash

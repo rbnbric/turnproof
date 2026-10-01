@@ -207,8 +207,9 @@ Use these Devpost tags:
 **Source code and local demo:** https://github.com/rbnbric/turnproof
 
 The repository contains the observatory, MCP endpoint, verification commands,
-generated laboratory, and source-linked evidence receipt. Add a hosted
-observatory as a second link if it is deployed before submission.
+generated laboratory, source-linked evidence receipt, and the rendered
+submission walkthrough at `evidence/turnproof-demo.mp4`. Use the uploaded
+YouTube copy of that walkthrough for Devpost's required Video Demo Link.
 
 ## Suggested gallery captions
 

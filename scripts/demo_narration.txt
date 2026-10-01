@@ -1,0 +1,15 @@
+Conversational software can sound confident while the state underneath it is wrong. Turnproof protects the boundary where Alexa Plus interpretation becomes durable meaning or an application effect.
+
+We begin with partial information. Missing facts stay missing; the system invents no defaults. The user answers no. That statement becomes a revision with its own semantic digest.
+
+Then the user corrects the answer to yes. Turnproof changes the active meaning, while preserving the superseded value in an inspectable ledger.
+
+An action can now be proposed, but it is bound to that exact revision and digest. When new evidence arrives, the conversation advances. The old approval no longer matches.
+
+Trying the stale action returns State Changed. No simulated effect occurs.
+
+The same conversation contracts generate adversarial checks for partial input, explicit unknowns, corrections, retries, concurrency, stale actions, and order convergence. All sixteen checks pass.
+
+Finally, we switch from household diagnosis to a structurally different handoff contract. The reducer, firewall, ledger, and receipts remain the same.
+
+Turnproof makes conversational meaning inspectable, reproducible, and resistant to model drift.
