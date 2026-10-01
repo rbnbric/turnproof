@@ -18,6 +18,13 @@ pleasant transcripts, could we declare what a conversation is allowed to mean,
 generate attacks from that declaration, and preserve a reproducible receipt of
 the result?
 
+This reflects Armada Ventures' broader modus operandi: use LLMs to augment
+human judgment and help design better systems, while refusing to make
+correctness or authority depend on model confidence alone. In the present
+environment of rapid change and uncertain model behavior, deterministic
+contracts and reproducible evidence provide safe harbor. We build with LLMs;
+we do not build critical trust on top of them.
+
 Alexa+ provides a useful boundary for that experiment. Its MCP add-ons connect
 natural conversation to structured tools. Turnproof protects the point where a
 model's interpretation becomes persistent state or an application effect.

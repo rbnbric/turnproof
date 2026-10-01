@@ -7,6 +7,10 @@ It compiles a conversational contract into revisioned state rules, protects
 effects from stale or ambiguous state, and generates multi-turn attacks against
 the same contract.
 
+It also expresses Armada Ventures' operating principle: LLMs should augment
+judgment and help design systems, while deterministic contracts and reproducible
+evidence remain the safe harbor for correctness and authority.
+
 The proof of concept includes two structurally different contracts:
 
 - a household diagnosis that retains evidence and accepts corrections;
